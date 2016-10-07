@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["vincent"]
   spec.email         = ["xiewenwei@gmail.com"]
 
-  spec.summary       = %q{Slides prensenter based on RevealJS HTML.}
-  spec.description   = %q{Slides prensenter based on RevealJS HTML.}
+  spec.summary       = %q{Display markdown slides using RevealJS HTML.}
+  spec.description   = %q{Display markdown slides using RevealJS HTML.}
   spec.homepage      = "http://github.com/xiewenwie/slideit."
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
