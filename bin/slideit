@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+require 'optparse'
+require 'slideit'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: slideit [options] slide-file"
+
+  opts.on("-p port", "--port PORT", "The port for slides server") do |v|
+    options[:port] = v
+  end
+
+  opts.on("-t theme", "--theme THEME", "The theme for slides") do |v|
+    options[:theme] = v
+  end
+
+  options[:pdf] = false
+  opts.on("--pdf", "Output pdf file") do |v|
+    options[:pdf] = true
+  end
+end.parse!
+
+#puts "options is #{options.inspect}"
+#puts "ARGV is #{ARGV.inspect}"
+
+if ARGV.size == 0
+  puts "Please input slide-file"
+  exit(1)
+else
+  Slideit.show ARGV[0], options
+end

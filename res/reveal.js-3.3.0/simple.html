@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Simple reveal.js Slides</title>
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/league.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>Slide 1</section>
+                <section data-markdown>
+                    <script type="text/template">
+                        <!-- .slide: data-background="#ff0000" -->
+                        ## Page title
+
+                        A paragraph with some text and a [link](http://hakim.se).
+                    </script>
+                </section>
+
+                <section data-autoslide=false>
+                   <section>
+                     <img data-src="http://up.boohee.cn/house/u/boohee_web/160328/i2.jpg">
+                   </section>
+                   <section>
+                     <iframe data-src="http://hakim.se"></iframe>
+                   </section>
+                </section>
+
+                <section data-autoslide="2000">
+                    <p>After 2 seconds the first fragment will be shown.</p>
+                    <p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
+                    <p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
+                </section>
+
+                <section data-markdown data-autoslide="3000">
+                    <script type="text/template">
+                        - Item 1 <!-- .element: class="fragment" data-fragment-index="1" -->
+                        - Item 2 <!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Item 3 <!-- .element: class="fragment" data-fragment-index="3" -->
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="---">
+                    <script type="text/template">
+                        ## Demo 1
+                        Slide 1
+                        ---
+                        ## Demo 1
+                        Slide 2
+                        ---
+                        ## Demo 1
+                        Slide 3
+                    </script>
+                </section>
+
+                <section>
+                    <section>Vertical Slide 1</section>
+                    <section>Vertical Slide 2</section>
+                    <section>
+                        Max hierarchies is two.
+                    </section>
+                    <section>Vertical Slide 4</section>
+                </section>
+                <section>这是非常漂亮的 PPT</section>
+                <section>Slide 2</section>
+                <section>The End</section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                autoSlide: false,
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
