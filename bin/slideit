@@ -27,8 +27,14 @@ end.parse!
 #puts "ARGV is #{ARGV.inspect}"
 
 if ARGV.size == 0
-  puts "Please input slide-file"
+  puts "Please input slide file!"
   exit(1)
 else
-  Slideit.show ARGV[0], options
+  file = ARGV[0]
+  if FileTest.file? file
+    Slideit.show file, options
+  else
+    puts "#{file} does not exist!"
+    exit(1)
+  end
 end

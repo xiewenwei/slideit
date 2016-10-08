@@ -13,11 +13,25 @@ test.md's content is following
 ```
 ## Demo 1
 Slide 1
+
 ---
-## Demo 1
-Slide 2
+
+## Demo 2.1
+Slide 2.1
+
+----
+
+## Demo 2.2
+Slide 2.2
+
+----
+
+## Demo 2.3
+Slide 2.3
+
 ---
-## Demo 1
+
+## Demo 3
 Slide 3
 ```
 

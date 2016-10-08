@@ -2,6 +2,13 @@ require 'cgi'
 
 module Slideit
   class Template
+    Themes = %w(beige black blood league moon night serif simple sky solarized white)
+    Default = {
+      :separator => "^\n---\n",
+      :"separator-vertical" => "^\n----\n",
+      :"separator-notes" => "^Note:",
+      :theme => "league"
+    }
     BASE = <<-REVEAL_JS_TEMPLATE
 <!doctype html>
 <html>
@@ -19,7 +26,7 @@ module Slideit
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="stylesheet" href="/css/reveal.css">
-    <link rel="stylesheet" href="/css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="/css/theme/{__theme__}.css" id="theme">
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="/lib/css/zenburn.css">
@@ -44,7 +51,11 @@ module Slideit
 
       <div class="slides">
 
-        <section data-markdown data-separator="---">
+        <section data-markdown
+          data-separator="{__separator__}"
+          data-separator-vertical="{__separator-vertical__}"
+          data-separator-notes="{__separator-notes__}"
+          data-charset="utf-8">
           <script type="text/template">
 {__slide_markdown__}
           </script>
@@ -79,6 +90,8 @@ module Slideit
         ]
       });
 
+      {__print-pdf-scrit__}
+
     </script>
 
   </body>
@@ -88,17 +101,43 @@ module Slideit
     def initialize(title, markdown, options = {})
       @title = title
       @markdown = markdown
-      @options = options
+      @options = Default.dup
+      @options.update options
+
+      # make sure theme exists
+      unless Themes.include?(@options[:theme])
+        @options[:theme] = Default[:theme]
+      end
     end
 
     TITLE_PATTERN = "{__slide_title__}"
     MARKDOWN_PATTERN = "{__slide_markdown__}"
+    THEME_PATTERN = "{__theme__}"
+    SEPARATOR_PATTERN = "{__separator__}"
+    SEPARATOR_VERTICAL_PATTERN = "{__separator-vertical__}"
+    SEPARATOR_NOTES_PATTERN = "{__separator-notes__}"
+    PRINT_PDF_PATTERN = "{__print-pdf-scrit__}"
 
     def render
       html = BASE.dup
       html.sub! TITLE_PATTERN, "#{CGI::escapeHTML(@title)} - slideit"
       html.sub! MARKDOWN_PATTERN, @markdown
+      html.sub! THEME_PATTERN, @options[:theme]
+      html.sub! SEPARATOR_PATTERN, @options[:separator]
+      html.sub! SEPARATOR_VERTICAL_PATTERN, @options[:"separator-vertical"]
+      html.sub! SEPARATOR_NOTES_PATTERN, @options[:"separator-notes"]
+      html.sub! PRINT_PDF_PATTERN, print_pdf_script
       html
+    end
+
+    private
+
+    def print_pdf_script
+      if @options[:pdf]
+        "window.onload = function() { window.print(); };"
+      else
+        ""
+      end
     end
   end
 end

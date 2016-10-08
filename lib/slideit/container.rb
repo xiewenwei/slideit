@@ -9,16 +9,29 @@ module Slideit
     end
 
     def start
-      @server.start if @server
+      if @server
+        file_name = File.basename(@file)
+        url = "http://localhost:#{@port}/#{file_name}"
+        if @options[:pdf]
+          url << "?print-pdf"
+        end
+        Thread.new {
+          puts "Just waiting for 1 second...\n"
+          sleep 1
+          system "open #{url}"
+        }
+
+        @server.start
+      end
     end
 
     private
 
     def prepare
       root = File.expand_path "../../../res/reveal.js-3.3.0", __FILE__
-      port =@options[:port] ? @options[:port].to_i : 8000
+      @port = @options[:port] ? @options[:port].to_i : 8000
 
-      @server = WEBrick::HTTPServer.new Port: port, DocumentRoot: root
+      @server = WEBrick::HTTPServer.new Port: @port, DocumentRoot: root
 
       trap 'INT' do @server.shutdown end
 
@@ -31,13 +44,13 @@ module Slideit
       @server.mount_proc "/#{file_name}" do |req, res|
         res.status = 200
         res['Content-Type'] = 'text/html'
-        res.body = slide_content(file_name, @file)
+        res.body = slide_content(file_name)
       end
     end
 
-    def slide_content(file_name, file)
-      markdown = File.read(file)
-      template = Template.new file_name, markdown
+    def slide_content(file_name)
+      markdown = File.read(@file)
+      template = Template.new file_name, markdown, @options
       template.render
     end
 
