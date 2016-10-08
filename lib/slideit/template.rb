@@ -90,7 +90,7 @@ module Slideit
         ]
       });
 
-      {__print-pdf-scrit__}
+      {__print-pdf-script__}
 
     </script>
 
@@ -116,7 +116,7 @@ module Slideit
     SEPARATOR_PATTERN = "{__separator__}"
     SEPARATOR_VERTICAL_PATTERN = "{__separator-vertical__}"
     SEPARATOR_NOTES_PATTERN = "{__separator-notes__}"
-    PRINT_PDF_PATTERN = "{__print-pdf-scrit__}"
+    PRINT_PDF_PATTERN = "{__print-pdf-script__}"
 
     def render
       html = BASE.dup
