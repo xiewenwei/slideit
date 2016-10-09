@@ -9,5 +9,11 @@ module Slideit
       assert_match /<title>ItIsMySlide - slideit<\/title>/, html
       assert_match /## Demo 1/, html
     end
+
+    def test_print_pdf
+      template = Template.new "title", "demo", pdf: true
+      html = template.render
+      assert html.index("window.onload = function() { window.print")
+    end
   end
 end
