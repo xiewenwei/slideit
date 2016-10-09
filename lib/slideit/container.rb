@@ -69,7 +69,7 @@ module Slideit
       files = Dir["#{md_dir}/**/*"]
       pairs = {}
       files.each do |file|
-        if File.file?(file) && !EXECLUDES.include?(File.extname(file))
+        if FileTest.file?(file) && !EXECLUDES.include?(File.extname(file))
           key = file.sub md_dir, ""
           pairs[key] = file
         end
