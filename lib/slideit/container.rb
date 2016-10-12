@@ -1,3 +1,5 @@
+require 'socket'
+
 require "slideit/template"
 
 module Slideit
@@ -29,7 +31,7 @@ module Slideit
 
     def prepare
       root = File.expand_path "../../../res/reveal.js-3.3.0", __FILE__
-      @port = @options[:port] ? @options[:port].to_i : 8000
+      @port = @options[:port] ? @options[:port].to_i : get_available_port
 
       @server = WEBrick::HTTPServer.new Port: @port, DocumentRoot: root
 
@@ -37,6 +39,27 @@ module Slideit
 
       mount_slide
       mount_assets
+    end
+
+    def get_available_port
+      port = 8000
+      times = 0
+      while is_port_open?(port)
+        times += 1
+        break if times > 5
+        port = 8000 + rand(10240)
+      end
+      port
+    end
+
+    def is_port_open?(port)
+      begin
+        s = TCPSocket.new('127.0.0.1', port)
+        s.close
+        return true
+      rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+        return false
+      end
     end
 
     def mount_slide
